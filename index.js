@@ -6,7 +6,7 @@ app.get("/", (req, res) => {
 	res.send("Hi my name is Kakon!!!");
 });
 
-app.get("/user", (req, res) => {
+app.get("/myuser", (req, res) => {
 	res.send({ id: 1, name: "Kakon", job: "web developer" });
 });
 
@@ -19,8 +19,17 @@ const users = [
 	{ id: 6, name: "Madhob", job: "Computer Oparator" },
 ];
 
+//create users
 app.get("/users", (req, res) => {
 	res.send(users);
+});
+
+//create dynamic users
+app.get("/user/:id", (req, res) => {
+	console.log(req.params);
+	const id = req.params.id;
+	const user = users[id];
+	res.send(user);
 });
 
 app.listen(port, () => {
