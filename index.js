@@ -27,8 +27,8 @@ app.get("/users", (req, res) => {
 //create dynamic users
 app.get("/user/:id", (req, res) => {
 	console.log(req.params);
-	const id = req.params.id;
-	const user = users[id];
+	const id = parseInt(req.params.id);
+	const user = users.find((u) => u.id == id);
 	res.send(user);
 });
 
