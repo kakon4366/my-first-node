@@ -14,12 +14,25 @@ const client = new MongoClient(uri, {
 	useUnifiedTopology: true,
 	serverApi: ServerApiVersion.v1,
 });
-client.connect((err) => {
-	const collection = client.db("test").collection("devices");
-	console.log("Mongodb connect");
-	// perform actions on the collection object
-	client.close();
-});
+// client.connect((err) => {
+// 	const collection = client.db("test").collection("devices");
+// 	console.log("Mongodb connect");
+// 	// perform actions on the collection object
+// 	client.close();
+// });
+async function run() {
+	try {
+		await client.connect();
+		const usersCollection = client.db("foodExpress").collection("users");
+		const user = { name: "Barman", email: "barman@gmail.com" };
+		const result = await usersCollection.insertOne(user);
+		console.log(`User insert with id ${result.insertedId}`);
+	} finally {
+		// await client.close();
+	}
+}
+
+run().catch(console.dir());
 
 app.get("/", (req, res) => {
 	res.send("Hi my name is Kakon!!!");
