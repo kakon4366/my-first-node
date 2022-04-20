@@ -25,7 +25,15 @@ const users = [
 
 //create users
 app.get("/users", (req, res) => {
-	res.send(users);
+	if (req.query.name) {
+		const search = req.query.name.toLowerCase();
+		const matched = users.filter((user) =>
+			user.name.toLowerCase().includes(search)
+		);
+		res.send(matched);
+	} else {
+		res.send(users);
+	}
 });
 
 //create dynamic users
@@ -39,7 +47,10 @@ app.get("/user/:id", (req, res) => {
 //post method
 app.post("/user", (req, res) => {
 	console.log(req.body);
-	res.send("Post method success");
+	const user = req.body;
+	user.id = users.length + 1;
+	users.push(user);
+	res.send(user);
 });
 
 app.listen(port, () => {
