@@ -1,10 +1,25 @@
 const express = require("express");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 let cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+const uri =
+	"mongodb+srv://dbkakon1:mLhyTgtMyR5lbWb0@cluster0.co7pr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	serverApi: ServerApiVersion.v1,
+});
+client.connect((err) => {
+	const collection = client.db("test").collection("devices");
+	console.log("Mongodb connect");
+	// perform actions on the collection object
+	client.close();
+});
 
 app.get("/", (req, res) => {
 	res.send("Hi my name is Kakon!!!");
