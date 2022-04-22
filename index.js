@@ -34,7 +34,6 @@ async function run() {
 			const user = req.body;
 			const result = await usersCollection.insertOne(user);
 			res.send(result);
-			console.log(user);
 		});
 
 		//delete method
@@ -42,6 +41,29 @@ async function run() {
 			const id = req.params.id;
 			const query = { _id: ObjectId(id) };
 			const result = await usersCollection.deleteOne(query);
+			res.send(result);
+		});
+
+		// update method
+		app.put("/user/:id", async (req, res) => {
+			const id = req.params.id;
+			const updateUser = req.body;
+			const filter = { _id: ObjectId(id) };
+			const options = { upsert: true };
+			const updateDoc = {
+				$set: {
+					name: updateUser.name,
+					user: updateUser.user,
+					email: updateUser.email,
+					password: updateUser.password,
+				},
+			};
+
+			const result = await usersCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
 			res.send(result);
 		});
 	} finally {
