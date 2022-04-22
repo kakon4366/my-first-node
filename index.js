@@ -28,6 +28,14 @@ async function run() {
 			const users = await cursor.toArray();
 			res.send(users);
 		});
+
+		//post method
+		app.post("/user", async (req, res) => {
+			const user = req.body;
+			const result = await usersCollection.insertOne(user);
+			res.send(result);
+			console.log(user);
+		});
 	} finally {
 		// await client.close();
 	}
